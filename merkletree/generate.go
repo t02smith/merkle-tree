@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-func GenerateTree(filename string) (*Branch, error) {
+func GenerateTree(filename string, shardSize int) (*Branch, error) {
 
 	// find file
 
@@ -28,7 +28,7 @@ func GenerateTree(filename string) (*Branch, error) {
 		return nil, err
 	}
 
-	buffer := make([]byte, SHARD_SIZE)
+	buffer := make([]byte, shardSize)
 	reader := bufio.NewReader(file)
 
 	leaves := []*Branch{}
@@ -51,7 +51,7 @@ func GenerateTree(filename string) (*Branch, error) {
 
 		leaves = append(leaves, leaf)
 	}
-	fmt.Printf("%d shards of size %d bytes found\n", len(leaves), SHARD_SIZE)
+	fmt.Printf("%d shards of size %d bytes found\n", len(leaves), shardSize)
 
 	fmt.Println("Generating Merkle Tree")
 
@@ -66,16 +66,16 @@ func GenerateTree(filename string) (*Branch, error) {
 
 			// new branch node
 			branch := &Branch{
-				hash:   nil,
-				lChild: layers[len(layers)-1][i],
-				rChild: nil,
+				Hash:   nil,
+				LChild: layers[len(layers)-1][i],
+				RChild: nil,
 			}
 
 			// if layer is of odd length, duplicate last node
 			if i == lastLength-1 {
-				branch.rChild = branch.lChild
+				branch.RChild = branch.LChild
 			} else {
-				branch.rChild = layers[len(layers)-1][i+1]
+				branch.RChild = layers[len(layers)-1][i+1]
 			}
 
 			err = branch.generateHash()

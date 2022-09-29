@@ -7,7 +7,7 @@ func (b *Branch) generateHash() error {
 
 	// Left child node
 
-	lHash, err := b.lChild.Hash()
+	lHash, err := b.LChild.GetHash()
 	if err != nil {
 		return err
 	}
@@ -19,7 +19,7 @@ func (b *Branch) generateHash() error {
 
 	// right child node
 
-	rHash, err := b.rChild.Hash()
+	rHash, err := b.RChild.GetHash()
 	if err != nil {
 		return err
 	}
@@ -31,17 +31,17 @@ func (b *Branch) generateHash() error {
 
 	// final hash
 
-	b.hash = sha256.Sum([]byte{})
+	b.Hash = sha256.Sum([]byte{})
 	return nil
 }
 
-func (b *Branch) Hash() ([]byte, error) {
-	if b.hash == nil {
+func (b *Branch) GetHash() ([]byte, error) {
+	if b.Hash == nil {
 		err := b.generateHash()
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	return b.hash, nil
+	return b.Hash, nil
 }

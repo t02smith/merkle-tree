@@ -10,6 +10,14 @@ tampered with and the file can be uniquely identified by the root hash of the tr
 
 ## How to run
 
+> Ensure $GOPATH/bin is added to your PATH
+
 ```bash
-go run main.go <NAME OF FILE>
+go install
+merkle-tree --help
+```
+
+```bash
+# generate a merkle-tree of the generate.go file with shards of size 512 bytes
+merkle-tree generate --shard-size 512 --filename "./merkletree/generate.go"
 ```
